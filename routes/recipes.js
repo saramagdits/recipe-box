@@ -31,12 +31,14 @@ router.post("/", upload.single("img"), function (req, res) {
     let title = req.body.title;
     let ingredientList = req.body.ingredients;
     let instructions = req.body.instructions;
+    let user = req.user._id;
 
     Recipe.create({
         title: title,
         img: {imgFileName: imgFileName, imgMimeType: imgMimeType, imgOriginalName: imgOriginalName},
         ingredientList: ingredientList,
-        instructions: instructions
+        instructions: instructions,
+        user: user
     }, function (err, recipe) {
         if (err) {
             console.log(err);
@@ -66,7 +68,13 @@ router.get("/:id", function (req, res) {
             res.redirect("back");
         }
         else {
-            res.render("show", {user: user, recipe: recipe});
+            //check if the recipe belongs to current user
+            if (user._id.equals(recipe.user)){
+                res.render("show", {user: user, recipe: recipe});
+            } else {
+                console.log("this recipe does not belong to you");
+                res.redirect("back");
+            }
         }
     });
 });
