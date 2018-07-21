@@ -1,5 +1,5 @@
 //REQUIREMENTS
-var express = require("express"),
+const express = require("express"),
     app = express(),
     User = require("./models/user.js"),
     mongoose = require("mongoose"),
@@ -29,8 +29,8 @@ app.use(express.static("public"));
 mongoose.connect("mongodb://localhost/recipe_box_3");
 
 //ROUTE REQUIREMENTS
-var indexRoutes = require("./routes/index");
-var recipeRoutes = require("./routes/recipes");
+const indexRoutes = require("./routes/index");
+const recipeRoutes = require("./routes/recipes");
 //ROUTE CONFIGURATION
 app.use(indexRoutes);
 app.use("/recipes", recipeRoutes);

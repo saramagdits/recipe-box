@@ -1,22 +1,23 @@
-nav{
+nav {
     margin-bottom: 50px;
 }
-#removeIngredient{
+
+#removeIngredient {
     display: inline;
 }
 
-#ingredientsList input{
+#ingredientsList input {
     display: inline;
 }
 
-#editButton, #deleteButton, #deleteForm{
+#editButton, #deleteButton, #deleteForm {
     display: inline-block;
 }
 
-.editImgThumbnail{
+.editImgThumbnail {
     max-width: 150px;
 }
 
-.form-group figure{
+.form-group figure {
     display: block;
 }

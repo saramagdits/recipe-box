@@ -1,11 +1,11 @@
-var express = require("express");
-var router = express.Router();
-var User = require("../models/user");
-var passport = require("passport");
+const express = require("express");
+const router = express.Router();
+const User = require("../models/user");
+const passport = require("passport");
 
 //redirect to index
-router.get("/", function(req, res) {
-    var user = req.user;
+router.get("/", function (req, res) {
+    let user = req.user;
     res.render("landing", {user: user});
 });
 
@@ -13,21 +13,24 @@ router.get("/", function(req, res) {
 //AUTH ROUTES
 // ===========================
 //show register page
-router.get("/register", function(req, res) {
-    var user = req.user;
-    res.render("register", { user: user });
+router.get("/register", function (req, res) {
+    let user = req.user;
+    res.render("register", {user: user});
 });
 
 //register user
-router.post("/register", function(req, res) {
+router.post("/register", function (req, res) {
     //register the user
-    User.register({ username: req.body.username, displayName: req.body.displayName }, req.body.password, function(err, user) {
+    User.register({
+        username: req.body.username,
+        displayName: req.body.displayName
+    }, req.body.password, function (err, user) {
         if (err) {
             console.log(err);
             return res.render("index");
         }
         //log in the new user
-        req.login(user, function(err) {
+        req.login(user, function (err) {
             if (err) {
                 return next(err);
             }
@@ -37,18 +40,18 @@ router.post("/register", function(req, res) {
 });
 
 //show login page
-router.get("/login", function(req, res) {
-    var user = req.user;
-    res.render("login", { user: user });
+router.get("/login", function (req, res) {
+    let user = req.user;
+    res.render("login", {user: user});
 });
 
 //handle user login
-router.post("/login", passport.authenticate("local"), function(req, res) {
+router.post("/login", passport.authenticate("local"), function (req, res) {
     res.redirect("/recipes");
 });
 
 //log out the user
-router.get("/logout", isLoggedIn, function(req, res) {
+router.get("/logout", isLoggedIn, function (req, res) {
     req.logout();
     res.redirect("/recipes");
 });

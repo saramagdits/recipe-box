@@ -1,31 +1,31 @@
 <% include partials/header.ejs %>
-    <div class="container-fluid">
-        <div class="row justify-content-center">
-            <div class="col-4">
-                <img class="img-fluid rounded" src="/uploads/<%= recipe.img.imgFileName %>">  
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-4">
-                <h1><%= recipe.title %></h1>
-                <span>
-                    <%= recipe.date.toDateString() %>
-                </span>
-                <ul>
-                    <% recipe.ingredientList.forEach(function(ingredient){ %>
-                        <li>
-                            <%= ingredient %>
-                        </li>
-                    <% }); %>
-                </ul>
-                <p>
-                    <%= recipe.instructions %>
-                </p>
-                <a href="/recipes/<%= recipe._id %>/edit" class="btn btn-primary" id="editButton" role="button">Edit</a>
-                <form action="/recipes/<%= recipe._id %>?_method=DELETE" method="POST" id="deleteForm">
-                    <button type="submit" class="btn btn-danger" id="deleteButton">Delete</button>
-                </form>
-            </div>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <img class="img-fluid rounded" src="/uploads/<%= recipe.img.imgFileName %>">
         </div>
     </div>
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <h1><%= recipe.title %></h1>
+            <span>
+                    <%= recipe.date.toDateString() %>
+                </span>
+            <ul>
+                <% recipe.ingredientList.forEach(function(ingredient){ %>
+                <li>
+                    <%= ingredient %>
+                </li>
+                <% }); %>
+            </ul>
+            <p>
+                <%= recipe.instructions %>
+            </p>
+            <a href="/recipes/<%= recipe._id %>/edit" class="btn btn-primary" id="editButton" role="button">Edit</a>
+            <form action="/recipes/<%= recipe._id %>?_method=DELETE" method="POST" id="deleteForm">
+                <button type="submit" class="btn btn-danger" id="deleteButton">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>
 <% include partials/footer.ejs %>

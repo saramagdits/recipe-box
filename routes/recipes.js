@@ -1,42 +1,47 @@
-var express = require("express");
-var router = express.Router();
-var multer = require("multer");
-var fs = require("fs");
-var upload = multer({ dest: './public/uploads/' });
-var Recipe = require("../models/recipe");
+const express = require("express");
+const router = express.Router();
+const multer = require("multer");
+const fs = require("fs");
+const upload = multer({dest: './public/uploads/'});
+const Recipe = require("../models/recipe");
 
 //index route
-router.get("/", isLoggedIn, function(req, res) {
-    var user = req.user;
-    res.render("index", { user: user });
+router.get("/", isLoggedIn, function (req, res) {
+    let user = req.user;
+    res.render("index", {user: user});
 });
 
 //NEW ROUTE
 //shows new recipe form.
-router.get("/new", isLoggedIn, function(req, res) {
-    var user = req.user;
-    res.render("new", { user: user });
+router.get("/new", isLoggedIn, function (req, res) {
+    let user = req.user;
+    res.render("new", {user: user});
 });
 
 //CREATE ROUTE
 //creates a new recipe from form submission and adds it to db. redirects to show route
-router.post("/", isLoggedIn, upload.single("img"), function(req, res) {
+router.post("/", isLoggedIn, upload.single("img"), function (req, res) {
 
+    //! REFACTOR THIS
+    let imgFileName = req.file.filename;
+    let imgMimeType = req.file.mimetype;
+    let imgOriginalName = req.file.originalname;
+    let title = req.body.title;
+    let ingredientList = req.body.ingredients;
+    let instructions = req.body.instructions;
 
-    var imgFileName = req.file.filename;
-    var imgMimeType = req.file.mimetype;
-    var imgOriginalName = req.file.originalname;
-    var title = req.body.title;
-    var ingredientList = req.body.ingredients;
-    var instructions = req.body.instructions;
-
-    Recipe.create({ title: title, img: { imgFileName: imgFileName, imgMimeType: imgMimeType, imgOriginalName: imgOriginalName }, ingredientList: ingredientList, instructions: instructions }, function(err, recipe) {
+    Recipe.create({
+        title: title,
+        img: {imgFileName: imgFileName, imgMimeType: imgMimeType, imgOriginalName: imgOriginalName},
+        ingredientList: ingredientList,
+        instructions: instructions
+    }, function (err, recipe) {
         if (err) {
             console.log(err);
         }
         else {
             req.user.recipes.push(recipe);
-            req.user.save(function(err, data) {
+            req.user.save(function (err) {
                 if (err) {
                     console.log(err);
                 }
@@ -50,60 +55,60 @@ router.post("/", isLoggedIn, upload.single("img"), function(req, res) {
 
 //SHOW ROUTE
 //show details for an individual recipe
-router.get("/:id", isLoggedIn, function(req, res) {
-    var id = req.params.id;
-    var user = req.user;
-    Recipe.findById(id, function(err, recipe) {
+router.get("/:id", isLoggedIn, function (req, res) {
+    let id = req.params.id;
+    let user = req.user;
+    Recipe.findById(id, function (err, recipe) {
         if (err) {
             console.log(err);
         }
         else {
-            res.render("show", { user: user, recipe: recipe });
+            res.render("show", {user: user, recipe: recipe});
         }
     });
 });
 
 //EDIT ROUTE
 //shows the form to edit an individual recipe
-router.get("/:id/edit", isLoggedIn, function(req, res) {
-    var id = req.params.id;
-    var user = req.user;
-    Recipe.findById(id, function(err, recipe) {
+router.get("/:id/edit", isLoggedIn, function (req, res) {
+    let id = req.params.id;
+    let user = req.user;
+    Recipe.findById(id, function (err, recipe) {
         if (err) {
             console.log(err);
         }
         else {
-            res.render("edit", { recipe: recipe, user: user });
+            res.render("edit", {recipe: recipe, user: user});
         }
     });
 });
 
 //UPDATE ROUTE
-//updates an indivdual recipe and reroutes to show route
-router.put("/:id", isLoggedIn, upload.single("img"), function(req, res) {
-
-    var id = req.params.id;
-    Recipe.findById(id, function(err, recipe) {
+//updates an individual recipe and reroutes to show route
+router.put("/:id", isLoggedIn, upload.single("img"), function (req, res) {
+    let id = req.params.id;
+    Recipe.findById(id, function (err, recipe) {
         if (err) {
             console.log(err);
         }
         else {
-            if (typeof req.file != 'undefined') {
-                var imgFileName = req.file.filename;
-                var imgMimeType = req.file.mimetype;
-                var imgOriginalName = req.file.originalname;
-                var imgPreviousPath = "./public/uploads/" + recipe.img.imgFileName;
+            if (typeof req.file !== 'undefined') {
+                //!REFACTOR THIS
+                let imgFileName = req.file.filename;
+                let imgMimeType = req.file.mimetype;
+                let imgOriginalName = req.file.originalname;
+                let imgPreviousPath = "./public/uploads/" + recipe.img.imgFileName;
                 fs.unlink(imgPreviousPath, (err) => {
                     if (err) throw err;
                 });
                 recipe.update({
                         title: req.body.title,
-                        img: { imgFileName: imgFileName, imgMimeType: imgMimeType, imgOriginalName: imgOriginalName },
+                        img: {imgFileName: imgFileName, imgMimeType: imgMimeType, imgOriginalName: imgOriginalName},
                         ingredientList: req.body.ingredients,
                         instructions: req.body.instructions
                     },
-                    function() {
-                        var url = "/recipes/" + id;
+                    function () {
+                        let url = "/recipes/" + id;
                         res.redirect(url);
                     });
             }
@@ -113,8 +118,8 @@ router.put("/:id", isLoggedIn, upload.single("img"), function(req, res) {
                         ingredientList: req.body.ingredients,
                         instructions: req.body.instructions
                     },
-                    function() {
-                        var url = "/recipes/" + id;
+                    function () {
+                        let url = "/recipes/" + id;
                         res.redirect(url);
                     });
             }
@@ -124,10 +129,10 @@ router.put("/:id", isLoggedIn, upload.single("img"), function(req, res) {
 
 //DESTROY ROUTE
 //removes an individual recipe and reroutes to index
-router.delete("/:id", isLoggedIn, function(req, res) {
-    var id = req.params.id;
-    var imgPreviousPath = "./public/uploads/";
-    Recipe.findById(id, function(err, recipe) {
+router.delete("/:id", isLoggedIn, function (req, res) {
+    let id = req.params.id;
+    let imgPreviousPath = "./public/uploads/";
+    Recipe.findById(id, function (err, recipe) {
         if (err) {
             console.log(err);
         }
@@ -135,7 +140,7 @@ router.delete("/:id", isLoggedIn, function(req, res) {
             imgPreviousPath += recipe.img.imgFileName;
         }
     });
-    Recipe.findByIdAndRemove(id, function(err) {
+    Recipe.findByIdAndRemove(id, function (err) {
         if (err) {
             console.log(err);
         }
