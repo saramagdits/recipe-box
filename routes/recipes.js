@@ -21,6 +21,7 @@ router.get("/new", function (req, res) {
 });
 
 //CREATE ROUTE
+//TODO fix this error when user creates second recipe: E11000 duplicate key error collection: recipe_box_3.recipes index: username_1 dup key: { : null }
 //creates a new recipe from form submission and adds it to db. redirects to show route
 router.post("/", upload.single("img"), function (req, res) {
 
@@ -41,15 +42,17 @@ router.post("/", upload.single("img"), function (req, res) {
         user: user
     }, function (err, recipe) {
         if (err) {
-            console.log(err);
+            req.flash("error", err.message);
+            res.redirect("back");
         }
         else {
             req.user.recipes.push(recipe);
             req.user.save(function (err) {
                 if (err) {
-                    console.log(err);
+                    req.flash("error", err.message);
                 }
                 else {
+                    req.flash("success", "Your recipe was successfully created!");
                     res.redirect("/recipes");
                 }
             });
@@ -64,7 +67,7 @@ router.get("/:id", function (req, res) {
     let user = req.user;
     Recipe.findById(id, function (err, recipe) {
         if (err || !recipe) {
-            console.log(err);
+            req.flash("error", "Hmm.. That recipe could not be found.");
             res.redirect("back");
         }
         else {
@@ -72,7 +75,7 @@ router.get("/:id", function (req, res) {
             if (user._id.equals(recipe.user)){
                 res.render("show", {user: user, recipe: recipe});
             } else {
-                console.log("this recipe does not belong to you");
+                req.flash("error", "Hmm.. That recipe could not be found.");
                 res.redirect("back");
             }
         }
@@ -86,7 +89,7 @@ router.get("/:id/edit", function (req, res) {
     let user = req.user;
     Recipe.findById(id, function (err, recipe) {
         if (err || !recipe) {
-            console.log(err);
+            req.flash("error", "Hmm.. That recipe could not be found");
             res.redirect("back");
         }
         else {
@@ -101,7 +104,7 @@ router.put("/:id", upload.single("img"), function (req, res) {
     let id = req.params.id;
     Recipe.findById(id, function (err, recipe) {
         if (err || !recipe) {
-            console.log(err);
+            req.flash("error", "Hmm.. Something went wrong.");
         }
         else {
             if (typeof req.file !== 'undefined') {
@@ -121,6 +124,7 @@ router.put("/:id", upload.single("img"), function (req, res) {
                     },
                     function () {
                         let url = "/recipes/" + id;
+                        req.flash("success", "Your recipe was successfully updated!");
                         res.redirect(url);
                     });
             }
@@ -132,6 +136,7 @@ router.put("/:id", upload.single("img"), function (req, res) {
                     },
                     function () {
                         let url = "/recipes/" + id;
+                        req.flash("success", "Your recipe was successfully updated!");
                         res.redirect(url);
                     });
             }
@@ -144,9 +149,10 @@ router.put("/:id", upload.single("img"), function (req, res) {
 router.delete("/:id", function (req, res) {
     let id = req.params.id;
     let imgPreviousPath = "./public/uploads/";
+    //TODO recombine this into duplicate function below?
     Recipe.findById(id, function (err, recipe) {
         if (err || !recipe) {
-            console.log(err);
+            req.flash("error", "Hmm.. Something went wrong.");
         }
         else {
             imgPreviousPath += recipe.img.imgFileName;
@@ -154,12 +160,13 @@ router.delete("/:id", function (req, res) {
     });
     Recipe.findByIdAndRemove(id, function (err, recipe) {
         if (err || !recipe) {
-            console.log(err);
+            req.flash("error", "Hmm..Something went wrong");
         }
         else {
             fs.unlink(imgPreviousPath, (err) => {
                 if (err) throw err;
             });
+            req.flash("success", "Your recipe was successfully deleted.");
             res.redirect("/recipes");
         }
     });

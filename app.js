@@ -1,5 +1,4 @@
 //REQUIREMENTS
-//TODO add flash messages package
 const express = require("express"),
     app = express(),
     User = require("./models/user.js"),
@@ -9,7 +8,8 @@ const express = require("express"),
     expressSanitizer = require("express-sanitizer"),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
-    session = require("express-session");
+    session = require("express-session"),
+    flash = require("connect-flash");
 
 //TODO add environmental variables for IP, PORT, MONGODB, SESSIONSECRET
 //APP CONFIGURATION
@@ -23,6 +23,12 @@ passport.deserializeUser(User.deserializeUser());
 app.use(session({secret: "cooper is a cool cat", resave: false, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
+app.use(function (req, res, next) {
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
+    next();
+});
 
 //STATIC RESOURCE CONFIGURATION
 app.use(express.static("public"));

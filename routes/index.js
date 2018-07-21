@@ -5,10 +5,10 @@ const passport = require("passport");
 const mw = require("../middleware/middleware.js");
 
 router.use(mw.onlyOn("/logout", mw.isLoggedIn));
-//TODO require flash messages
 
 //redirect to index
 router.get("/", function (req, res) {
+
     let user = req.user;
     res.render("landing", {user: user});
 });
@@ -24,20 +24,21 @@ router.get("/register", function (req, res) {
 
 //register user
 router.post("/register", function (req, res) {
-    //register the user
     User.register({
         username: req.body.username,
         displayName: req.body.displayName
     }, req.body.password, function (err, user) {
         if (err) {
-            console.log(err);
-            return res.render("index");
+            req.flash("error", err.message);
+            return res.redirect("back");
         }
         //log in the new user
         req.login(user, function (err) {
             if (err) {
+                req.flash("error", err.message);
                 return next(err);
             }
+            req.flash("success", "Welcome to Recipe Box. Congrats!");
             return res.redirect("/recipes");
         });
     });
@@ -55,13 +56,15 @@ router.get("/login", function (req, res) {
 //TODO user should not be able to log in if already logged in
 //handle user login
 router.post("/login", passport.authenticate("local"), function (req, res) {
+    req.flash("success", "Welcome " + req.user.displayName + "!");
     res.redirect("/recipes");
 });
 
 //log out the user
 router.get("/logout", function (req, res) {
     req.logout();
-    res.redirect("/recipes");
+    req.flash("success", "Successfully logged out");
+    res.render("landing");
 });
 
 //TODO fix bad request error when logging in without password
