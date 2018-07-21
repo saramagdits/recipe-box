@@ -1,5 +1,3 @@
-//TODO fix the findById() bug like on YelpCamp
-
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
@@ -62,10 +60,10 @@ router.post("/", upload.single("img"), function (req, res) {
 router.get("/:id", function (req, res) {
     let id = req.params.id;
     let user = req.user;
-    //TODO fix findById() error like on YelpCamp
     Recipe.findById(id, function (err, recipe) {
-        if (err) {
+        if (err || !recipe) {
             console.log(err);
+            res.redirect("back");
         }
         else {
             res.render("show", {user: user, recipe: recipe});
@@ -78,10 +76,10 @@ router.get("/:id", function (req, res) {
 router.get("/:id/edit", function (req, res) {
     let id = req.params.id;
     let user = req.user;
-    //TODO fix findById() error like on YelpCamp
     Recipe.findById(id, function (err, recipe) {
-        if (err) {
+        if (err || !recipe) {
             console.log(err);
+            res.redirect("back");
         }
         else {
             res.render("edit", {recipe: recipe, user: user});
@@ -93,9 +91,8 @@ router.get("/:id/edit", function (req, res) {
 //updates an individual recipe and reroutes to show route
 router.put("/:id", upload.single("img"), function (req, res) {
     let id = req.params.id;
-    //TODO fix findById() error like on YelpCamp
     Recipe.findById(id, function (err, recipe) {
-        if (err) {
+        if (err || !recipe) {
             console.log(err);
         }
         else {
@@ -139,18 +136,16 @@ router.put("/:id", upload.single("img"), function (req, res) {
 router.delete("/:id", function (req, res) {
     let id = req.params.id;
     let imgPreviousPath = "./public/uploads/";
-    //TODO fix findById() error like on YelpCamp
     Recipe.findById(id, function (err, recipe) {
-        if (err) {
+        if (err || !recipe) {
             console.log(err);
         }
         else {
             imgPreviousPath += recipe.img.imgFileName;
         }
     });
-    //TODO fix findById() error like on YelpCamp
-    Recipe.findByIdAndRemove(id, function (err) {
-        if (err) {
+    Recipe.findByIdAndRemove(id, function (err, recipe) {
+        if (err || !recipe) {
             console.log(err);
         }
         else {
