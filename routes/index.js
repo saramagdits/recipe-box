@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const passport = require("passport");
+//TODO require flash messages
 
 //redirect to index
 router.get("/", function (req, res) {
@@ -45,6 +46,7 @@ router.get("/login", function (req, res) {
     res.render("login", {user: user});
 });
 
+//TODO fix bad request error when logging in without password
 //handle user login
 router.post("/login", passport.authenticate("local"), function (req, res) {
     res.redirect("/recipes");
@@ -56,6 +58,7 @@ router.get("/logout", isLoggedIn, function (req, res) {
     res.redirect("/recipes");
 });
 
+//TODO refactor middleware and fix bad request error when logging in without password
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();

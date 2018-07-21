@@ -1,3 +1,5 @@
+//TODO fix the findById() bug like on YelpCamp
+
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
@@ -22,7 +24,7 @@ router.get("/new", isLoggedIn, function (req, res) {
 //creates a new recipe from form submission and adds it to db. redirects to show route
 router.post("/", isLoggedIn, upload.single("img"), function (req, res) {
 
-    //! REFACTOR THIS
+    //TODO refactor this
     let imgFileName = req.file.filename;
     let imgMimeType = req.file.mimetype;
     let imgOriginalName = req.file.originalname;
@@ -58,6 +60,7 @@ router.post("/", isLoggedIn, upload.single("img"), function (req, res) {
 router.get("/:id", isLoggedIn, function (req, res) {
     let id = req.params.id;
     let user = req.user;
+    //TODO fix findById() error like on YelpCamp
     Recipe.findById(id, function (err, recipe) {
         if (err) {
             console.log(err);
@@ -73,6 +76,7 @@ router.get("/:id", isLoggedIn, function (req, res) {
 router.get("/:id/edit", isLoggedIn, function (req, res) {
     let id = req.params.id;
     let user = req.user;
+    //TODO fix findById() error like on YelpCamp
     Recipe.findById(id, function (err, recipe) {
         if (err) {
             console.log(err);
@@ -87,13 +91,14 @@ router.get("/:id/edit", isLoggedIn, function (req, res) {
 //updates an individual recipe and reroutes to show route
 router.put("/:id", isLoggedIn, upload.single("img"), function (req, res) {
     let id = req.params.id;
+    //TODO fix findById() error like on YelpCamp
     Recipe.findById(id, function (err, recipe) {
         if (err) {
             console.log(err);
         }
         else {
             if (typeof req.file !== 'undefined') {
-                //!REFACTOR THIS
+                //TODO refactor this
                 let imgFileName = req.file.filename;
                 let imgMimeType = req.file.mimetype;
                 let imgOriginalName = req.file.originalname;
@@ -132,6 +137,7 @@ router.put("/:id", isLoggedIn, upload.single("img"), function (req, res) {
 router.delete("/:id", isLoggedIn, function (req, res) {
     let id = req.params.id;
     let imgPreviousPath = "./public/uploads/";
+    //TODO fix findById() error like on YelpCamp
     Recipe.findById(id, function (err, recipe) {
         if (err) {
             console.log(err);
@@ -140,6 +146,7 @@ router.delete("/:id", isLoggedIn, function (req, res) {
             imgPreviousPath += recipe.img.imgFileName;
         }
     });
+    //TODO fix findById() error like on YelpCamp
     Recipe.findByIdAndRemove(id, function (err) {
         if (err) {
             console.log(err);
@@ -153,6 +160,7 @@ router.delete("/:id", isLoggedIn, function (req, res) {
     });
 });
 
+//TODO refactor this
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();

@@ -1,4 +1,5 @@
 //REQUIREMENTS
+//TODO add flash messages package
 const express = require("express"),
     app = express(),
     User = require("./models/user.js"),
@@ -10,6 +11,7 @@ const express = require("express"),
     LocalStrategy = require("passport-local"),
     session = require("express-session");
 
+//TODO add environmental variables for IP, PORT, MONGODB, SESSIONSECRET
 //APP CONFIGURATION
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
