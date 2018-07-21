@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const passport = require("passport");
+const mw = require("../middleware/middleware.js");
+
+router.use(mw.onlyOn("/logout", mw.isLoggedIn));
 //TODO require flash messages
 
 //redirect to index
@@ -41,29 +44,26 @@ router.post("/register", function (req, res) {
 });
 
 //show login page
+//TODO user should not be able to see login page if logged in
 router.get("/login", function (req, res) {
     let user = req.user;
     res.render("login", {user: user});
 });
 
 //TODO fix bad request error when logging in without password
+//TODO handle unauthorized error when incorrect password given
+//TODO user should not be able to log in if already logged in
 //handle user login
 router.post("/login", passport.authenticate("local"), function (req, res) {
     res.redirect("/recipes");
 });
 
 //log out the user
-router.get("/logout", isLoggedIn, function (req, res) {
+router.get("/logout", function (req, res) {
     req.logout();
     res.redirect("/recipes");
 });
 
-//TODO refactor middleware and fix bad request error when logging in without password
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
+//TODO fix bad request error when logging in without password
 
 module.exports = router;

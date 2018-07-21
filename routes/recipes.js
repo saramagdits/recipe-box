@@ -6,23 +6,25 @@ const multer = require("multer");
 const fs = require("fs");
 const upload = multer({dest: './public/uploads/'});
 const Recipe = require("../models/recipe");
+const mw = require("../middleware/middleware.js");
 
+router.use(mw.isLoggedIn);
 //index route
-router.get("/", isLoggedIn, function (req, res) {
+router.get("/", function (req, res) {
     let user = req.user;
     res.render("index", {user: user});
 });
 
 //NEW ROUTE
 //shows new recipe form.
-router.get("/new", isLoggedIn, function (req, res) {
+router.get("/new", function (req, res) {
     let user = req.user;
     res.render("new", {user: user});
 });
 
 //CREATE ROUTE
 //creates a new recipe from form submission and adds it to db. redirects to show route
-router.post("/", isLoggedIn, upload.single("img"), function (req, res) {
+router.post("/", upload.single("img"), function (req, res) {
 
     //TODO refactor this
     let imgFileName = req.file.filename;
@@ -57,7 +59,7 @@ router.post("/", isLoggedIn, upload.single("img"), function (req, res) {
 
 //SHOW ROUTE
 //show details for an individual recipe
-router.get("/:id", isLoggedIn, function (req, res) {
+router.get("/:id", function (req, res) {
     let id = req.params.id;
     let user = req.user;
     //TODO fix findById() error like on YelpCamp
@@ -73,7 +75,7 @@ router.get("/:id", isLoggedIn, function (req, res) {
 
 //EDIT ROUTE
 //shows the form to edit an individual recipe
-router.get("/:id/edit", isLoggedIn, function (req, res) {
+router.get("/:id/edit", function (req, res) {
     let id = req.params.id;
     let user = req.user;
     //TODO fix findById() error like on YelpCamp
@@ -89,7 +91,7 @@ router.get("/:id/edit", isLoggedIn, function (req, res) {
 
 //UPDATE ROUTE
 //updates an individual recipe and reroutes to show route
-router.put("/:id", isLoggedIn, upload.single("img"), function (req, res) {
+router.put("/:id", upload.single("img"), function (req, res) {
     let id = req.params.id;
     //TODO fix findById() error like on YelpCamp
     Recipe.findById(id, function (err, recipe) {
@@ -134,7 +136,7 @@ router.put("/:id", isLoggedIn, upload.single("img"), function (req, res) {
 
 //DESTROY ROUTE
 //removes an individual recipe and reroutes to index
-router.delete("/:id", isLoggedIn, function (req, res) {
+router.delete("/:id", function (req, res) {
     let id = req.params.id;
     let imgPreviousPath = "./public/uploads/";
     //TODO fix findById() error like on YelpCamp
@@ -159,13 +161,4 @@ router.delete("/:id", isLoggedIn, function (req, res) {
         }
     });
 });
-
-//TODO refactor this
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
-
 module.exports = router;
