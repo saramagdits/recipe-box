@@ -1,3 +1,4 @@
+//TODO fix the problem where the remove ingredient button only works on the first instance
 const init = function () {
     let removeIngredientButton = document.getElementsByClassName("fa-minus-square");
     let addIngredientButton = document.getElementById("addIngredient");

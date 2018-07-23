@@ -21,3 +21,11 @@ nav {
 .form-group figure {
     display: block;
 }
+.form-header{
+    text-align: center;
+}
+
+.form-container{
+    width: 45%;
+    margin: 25px auto;
+}

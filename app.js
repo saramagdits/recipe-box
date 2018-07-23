@@ -33,8 +33,13 @@ app.use(function (req, res, next) {
 //STATIC RESOURCE CONFIGURATION
 app.use(express.static("public"));
 
+//ENVIRONMENT VARIABLES
+var DATABASEURL = process.env.DATABASEURL || "mongodb://localhost/recipe_box_local";
+// var HOSTIP = process.env.IP || "127.0.0.1";
+var HOSTPORT = process.env.PORT || 3000;
+
 //DATABASE CONFIGURATION
-mongoose.connect("mongodb://localhost/recipe_box_3");
+mongoose.connect(DATABASEURL);
 
 //ROUTE REQUIREMENTS
 const indexRoutes = require("./routes/index");
@@ -44,6 +49,6 @@ app.use(indexRoutes);
 app.use("/recipes", recipeRoutes);
 
 //LISTENER FUNCTION
-app.listen(3000, "127.0.0.1", function () {
+app.listen(HOSTPORT, function () {
     console.log("Server successfully started.........");
 });
