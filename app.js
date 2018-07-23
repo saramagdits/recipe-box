@@ -21,7 +21,6 @@ const express = require("express"),
     session = require("express-session"),
     flash = require("connect-flash");
 
-//TODO add environmental variables for IP, PORT, MONGODB, SESSIONSECRET
 //APP CONFIGURATION
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));

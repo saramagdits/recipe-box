@@ -27,27 +27,23 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
-            <!--TODO fix bug where user cannot go to landing page after logging out-->
-            <% if (user){ %>
+            <% if ( typeof user !== 'undefined' && user){ %>
             <li class="nav-item">
                 <a class="nav-link" href="/recipes/new">New Recipe</a>
             </li>
-            <% } %>
-            <% if (!user){ %>
-            <li class="nav-item">
-                <a class="nav-link" href="/login">Log In</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/register">Sign Up</a>
-            </li>
-            <% } %>
-            <% if(user){ %>
             <li class="nav-item">
                 <a class="nav-link" href="/logout">Log Out</a>
             </li>
+            <% } else {%>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Log In</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Sign Up</a>
+                </li>
             <% } %>
         </ul>
-        <% if(user){ %>
+        <% if(typeof user !== 'undefined' && user){ %>
         <span class="navbar-text">
                     Hello <strong><%= user.displayName %></strong>
                   </span>
