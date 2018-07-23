@@ -21,7 +21,6 @@ router.get("/new", function (req, res) {
 });
 
 //CREATE ROUTE
-//TODO fix this error when user creates second recipe: E11000 duplicate key error collection: recipe_box_3.recipes index: username_1 dup key: { : null }
 //creates a new recipe from form submission and adds it to db. redirects to show route
 router.post("/", upload.single("img"), function (req, res) {
 

@@ -1,12 +1,38 @@
-<!--TODO update landing page-->
-<% include partials/header.ejs %>
-<div class="jumbotron">
-    <h1 class="display-4">Your digital recipe box</h1>
-    <p class="lead">Access your favorite recipes anytime, on any device.</p>
-    <hr class="my-4">
-    <p>Save all your....</p>
-    <p class="lead">
-        <a class="btn btn-primary btn-lg" href="/register" role="button">Get Started</a>
-    </p>
-</div>
-<% include partials/footer.ejs %>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recipe Box - Digital Recipe Storage</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/landing.css" type="text/css">
+</head>
+<body>
+    <div id="landing-header">
+        <h1>Welcome to Recipe Box!</h1>
+        <hr>
+        <p>Access your favorite recipes anytime, on any device.</p>
+        <a href="/register" class="btn btn-lg btn-primary">Create an Account</a>
+        <a href="#about" class="btn btn-lg btn-light">Learn More</a>
+        <a href="/login">Log In</a>
+    </div>
+    <div id="about" class="container-">
+        <div class="row">
+            <div class="col-lg">
+                <h2>What is Recipe Box</h2>
+            </div>
+        </div>
+    </div>
+    <% include partials/footer.ejs %>
+</body>
+
+
+<!--<div class="jumbotron">-->
+    <!--<h1 class="display-4">Your digital recipe box</h1>-->
+    <!--<p class="lead">Access your favorite recipes anytime, on any device.</p>-->
+    <!--<hr class="my-4">-->
+    <!--<p>Save all your....</p>-->
+    <!--<p class="lead">-->
+        <!--<a class="btn btn-primary btn-lg" href="/register" role="button">Get Started</a>-->
+    <!--</p>-->
+<!--</div>-->

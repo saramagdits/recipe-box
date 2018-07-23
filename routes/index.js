@@ -67,6 +67,6 @@ router.get("/logout", function (req, res) {
     res.render("landing");
 });
 
-//TODO fix bad request error when logging in without password
+
 
 module.exports = router;

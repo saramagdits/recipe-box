@@ -1,9 +1,8 @@
 <% include partials/header.ejs %>
-<h1>Edit <%= recipe.title %></h1>
-
-<div class="container-fluid">
+<div class="container">
+    <h1 class="form-header">Edit <%= recipe.title %></h1>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="form-container">
             <form action="/recipes/<%= recipe._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="title">Recipe Title</label>
@@ -15,7 +14,7 @@
                     <i class="far fa-plus-square fa-lg" id="addIngredient"></i>
                     <% recipe.ingredientList.forEach(function(ingredient){ %>
                     <!--need to eventually make at least 1 ingredient required-->
-                    <input type="text" name="ingredients[]" value="<%= ingredient %>">
+                    <input type="text" class="form-control" name="ingredients[]" value="<%= ingredient %>">
                     <i class="far fa-minus-square fa-lg" id="removeIngredient"></i>
                     <% }); %>
 
