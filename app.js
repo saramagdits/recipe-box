@@ -6,7 +6,7 @@ require('dotenv').config();
 const DB_URL = process.env.DB_URL;
 // const IP = process.env.IP || "127.0.0.1";
 const PORT= process.env.PORT;
-const SESSIONSECRET = process.env.SESSIONSECRET;
+const SESSION_SECRET = process.env.SESSION_SECRET;
 
 //REQUIREMENTS
 const express = require("express"),
@@ -30,7 +30,7 @@ app.use(expressSanitizer());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-app.use(session({secret: SESSIONSECRET, resave: false, saveUninitialized: true}));
+app.use(session({secret: SESSION_SECRET, resave: false, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
