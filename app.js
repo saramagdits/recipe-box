@@ -36,6 +36,7 @@ app.use(flash());
 app.use(function (req, res, next) {
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
+    res.locals.currentUser = req.user;
     next();
 });
 
@@ -48,6 +49,7 @@ mongoose.connect(DB_URL);
 //ROUTE REQUIREMENTS
 const indexRoutes = require("./routes/index");
 const recipeRoutes = require("./routes/recipes");
+
 //ROUTE CONFIGURATION
 app.use(indexRoutes);
 app.use("/recipes", recipeRoutes);

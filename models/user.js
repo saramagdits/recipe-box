@@ -1,14 +1,13 @@
 const mongoose = require("mongoose"),
-    passportLocalMongoose = require("passport-local-mongoose"),
-    Recipe = require("./recipe.js");
+      passportLocalMongoose = require("passport-local-mongoose"),
+      RecipeSchema = require("./recipe.js");
 
-const UserSchema = mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     username: String,
     displayName: String,
     password: String,
-    recipes: [{type: mongoose.Schema.Types.ObjectId, ref: "Recipe"}]
+    recipes: [RecipeSchema]
 });
-//the populateFields option will populate recipes on the req.user
-UserSchema.plugin(passportLocalMongoose, {populateFields: "recipes"});
 
+UserSchema.plugin(passportLocalMongoose);
 module.exports = mongoose.model("User", UserSchema);
