@@ -1,5 +1,3 @@
-//TODO fix the error when trying to see another users recipe
-//maybe write a custom middleware to check if the recipe belongs to the user
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
@@ -58,11 +56,12 @@ router.get("/:id", function (req, res) {
     let id = req.params.id;
     let user = req.user;
     let recipe = user.recipes.id(id);
-    if (typeof recipe !== 'undefined') {
-        res.render("show", {user: user, recipe: recipe});
-    } else {
+    //will reject both a "null" and "undefined" recipe
+    if (typeof recipe === 'undefined' || !recipe) {
         req.flash("error", "Hmm.. That recipe could not be found.");
-        res.redirect("back");
+        res.redirect("/recipes");
+    } else {
+        res.render("show", {user: user, recipe: recipe});
     }
 });
 
