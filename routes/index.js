@@ -51,12 +51,13 @@ router.get("/login", function (req, res) {
     res.render("login", {user: user});
 });
 
-//TODO fix bad request error when logging in without password
-//TODO handle unauthorized error when incorrect password given
 //TODO user should not be able to log in if already logged in
 //handle user login
-router.post("/login", passport.authenticate("local"), function (req, res) {
-    req.flash("success", "Welcome " + req.user.displayName + "!");
+router.post("/login", passport.authenticate("local", {
+    failureRedirect: '/login',
+    failureFlash: true
+}), function (req, res) {
+    req.flash("success", "Welcome back " + req.user.displayName + "!");
     res.redirect("/recipes");
 });
 
@@ -66,7 +67,6 @@ router.get("/logout", function (req, res) {
     req.flash("success", "Successfully logged out");
     res.render("landing");
 });
-
 
 
 module.exports = router;
