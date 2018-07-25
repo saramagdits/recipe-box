@@ -4,13 +4,14 @@ const User = require("../models/user");
 const passport = require("passport");
 const mw = require("../middleware/middleware.js");
 
-router.use(mw.onlyOn("/logout", mw.isLoggedIn));
+// router.use(mw.onlyOn("/logout", mw.isLoggedIn));
 
 //redirect to index
 router.get("/", function (req, res) {
 
-    let user = req.user;
-    res.render("landing", {user: user});
+    // let user = req.user;
+    // res.render("landing", {user: user});
+    res.render("landing");
 });
 
 // ===========================
@@ -45,13 +46,16 @@ router.post("/register", function (req, res) {
 });
 
 //show login page
-//TODO user should not be able to see login page if logged in
 router.get("/login", function (req, res) {
     let user = req.user;
-    res.render("login", {user: user});
+    if(!user){
+        res.render("login", {user: user});
+    }
+    else {
+        res.redirect("/recipes");
+    }
 });
 
-//TODO user should not be able to log in if already logged in
 //handle user login
 router.post("/login", passport.authenticate("local", {
     failureRedirect: '/login',
@@ -63,9 +67,13 @@ router.post("/login", passport.authenticate("local", {
 
 //log out the user
 router.get("/logout", function (req, res) {
-    req.logout();
-    req.flash("success", "Successfully logged out");
-    res.render("landing");
+    let user = req.user;
+    if (user){
+        req.logout();
+        //not in use
+        // req.flash("success", "Successfully logged out");
+    }
+    res.redirect("/");
 });
 
 
