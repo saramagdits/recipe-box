@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="/styles/style.css">
 </head>
 <body>
+<!--TODO add user icon with mini dropdown to show account page and logout links-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/recipes">Recipe Box</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -25,10 +26,10 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
+            <% if ( typeof user !== 'undefined' && user){ %>
             <li class="nav-item active">
                 <a class="nav-link" href="/recipes">Home <span class="sr-only">(current)</span></a>
             </li>
-            <% if ( typeof user !== 'undefined' && user){ %>
             <li class="nav-item">
                 <a class="nav-link" href="/recipes/new">New Recipe</a>
             </li>
@@ -43,12 +44,22 @@
                     <a class="nav-link" href="/register">Sign Up</a>
                 </li>
             <% } %>
-        </ul>
         <% if(typeof user !== 'undefined' && user){ %>
-        <span class="navbar-text">
-                    Hello <strong><%= user.displayName %></strong>
-                  </span>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Welcome, <%= user.displayName %> <i class="far fa-user fa-lg"></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/settings">Settings</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/logout">Log Out</a>
+            </div>
+        </li>
+        <!--<span class="navbar-text">-->
+                    <!--Hello <strong><%= user.displayName %></strong>-->
+                  <!--</span>-->
         <% } %>
+        </ul>
     </div>
 </nav>
 

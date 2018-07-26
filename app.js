@@ -1,3 +1,4 @@
+//TODO have success flash messages fade out. be sure to provide them room to not disrupt the flow of the page after fading
 //ENVIRONMENT CONFIGURATION
 //configuration requires the dotenv package to be installed. the .env file contains the necessary environmental variables
 //in deployment environment, use config vars instead

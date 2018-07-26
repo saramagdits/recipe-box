@@ -10,6 +10,7 @@
         </div>
     </header>
     <div class="row">
+        <!--TODO style recipe thumbnails as cards, as per https://getbootstrap.com/docs/4.0/components/card/ -->
         <% user.recipes.forEach(function(recipe){ %>
         <div class="col-sm-12 col-md-3">
             <a href="/recipes/<%= recipe._id %>">
