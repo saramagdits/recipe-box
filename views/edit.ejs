@@ -11,13 +11,24 @@
                 </div>
                 <fieldset class="form-group " id="ingredientsList">
                     <label for="ingredientsList">Ingredients</label>
-                    <i class="far fa-plus-square fa-lg" id="addIngredient"></i>
-                    <% recipe.ingredientList.forEach(function(ingredient){ %>
-                    <!--need to eventually make at least 1 ingredient required-->
-                    <input type="text" class="form-control" name="ingredients[]" value="<%= ingredient %>">
-                    <i class="far fa-minus-square fa-lg" id="removeIngredient"></i>
-                    <% }); %>
-
+                    <% var list = recipe.ingredientList;
+                    for (var i = 0; i < list.length; i++){
+                        if (i===0){ %>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" value="<%= list[i] %>" name="ingredients[]" required>
+                                <div class="input-group-append">
+                                    <button id="add" class="btn btn-outline-primary" type="button"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                        <% } else { %>
+                            <div id="ingredient<%= i %>" class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Add an ingredient" value="<%= list[i] %>" name="ingredients[]">
+                                <div class="input-group-append">
+                                    <button id="<%= i %>" class="btn-remove btn btn-outline-danger" type="button"><i class="fas fa-trash-alt"></i></button>
+                                </div>
+                            </div>
+                        <% }
+                    } %>
                 </fieldset>
                 <div class="form-group">
                     <label for="instructions">Instructions</label>
@@ -49,4 +60,4 @@
 </div>
 
 <% include partials/footer.ejs %>
-<script type="text/javascript" src="../public/scripts/form.js"></script>
+<!--<script type="text/javascript" src="/scripts/form.js"></script>-->
