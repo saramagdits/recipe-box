@@ -79,6 +79,7 @@ router.get("/:id/edit", function (req, res) {
     }
 });
 
+//TODO do not allow an empty string to become an ingredient
 //UPDATE ROUTE
 //updates an individual recipe and reroutes to show route
 router.put("/:id", upload.single("img"), function (req, res) {
