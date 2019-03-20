@@ -1,6 +1,9 @@
 nav {
     margin-bottom: 50px;
 }
+.display-name {
+    color: #fff !important;
+}
 
 #removeIngredient {
     display: inline;

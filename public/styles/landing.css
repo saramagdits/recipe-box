@@ -9,11 +9,18 @@
     height: 100vh;
     position: relative;
     text-align: center;
-    padding-top: 40vh;
+    padding-top: 25vh;
+    color: #fff;
 }
 
-#landing-header h1{
-    color: #fff;
+/*#landing-header h1{*/
+    /*color: #fff;*/
+/*}*/
+.landing-opacity {
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 50%;
+    margin: 0 auto;
+    padding: 15vh 0;
 }
 #about{
     height:50vh;
