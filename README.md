@@ -53,8 +53,10 @@ Test it out by creating a new recipe and then editing it.
 ## Built With
 
 * [Node.js](https://nodejs.org/en/) - Used for the backend to serve files, as well as serve as an endpoint for recipe requests.
-* [Express](https://expressjs.com/) - Web application framework for Node.js
-* [MongoDB](https://www.mongodb.com/) - NoSQL database used to build the Recipe API
-* [Mongoose](https://mongoosejs.com/) - Object modeling for MongoDB. Used to build the Recipe API
+* [Express](https://expressjs.com/) - Web application framework for Node.js.
+* [MongoDB](https://www.mongodb.com/) - NoSQL database used to build the Recipe API.
+* [Mongoose](https://mongoosejs.com/) - Object modeling for MongoDB. Used to build the Recipe API.
+* [Multer](https://www.npmjs.com/package/multer) - Middleware for handling multipart/form data. Handles recipe image uploads.
+* [Passport](https://www.npmjs.com/package/passport) - Authentication middleware for Node.js. Used for authentication, authorization, and session maintenance.
 * [EJS](https://www.npmjs.com/package/ejs) - Embedded JavaScript Templates. Server side template rendering.
-* [Bootstrap](http://getbootstrap.com/) - CSS framework for simplified responsive design
+* [Bootstrap](http://getbootstrap.com/) - CSS framework for simplified responsive design.
