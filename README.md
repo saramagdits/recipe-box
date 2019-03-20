@@ -1,13 +1,9 @@
-# recipe-box
-Collect and store your favorite recipes in this simple app. [Loading from Heroku may be slow]
-
-# Let Us Lettuce
-
-A simple app with the objective of showing the user what produce is in season for them, as well as pairing them with recipes which take advantage of this seasonality.
+# Recipe Box
+Collect and store your favorite recipes in this simple app. [Loading from Heroku may be slow].
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
@@ -17,10 +13,10 @@ In order to install this program, you will need to install [node.js](https://nod
 
 Follow these steps to get a dev environment running on your local machine
 
-1. Clone the let-us-lettuce repository to your local machine
+1. Clone the recipe-box repository to your local machine
 
 ```
-git clone https://github.com/saramagdits/let-us-lettuce.git
+git clone https://github.com/saramagdits/recipe-box.git
 ```
 
 2. Install dependencies from the package.json
@@ -29,57 +25,36 @@ git clone https://github.com/saramagdits/let-us-lettuce.git
 npm install
 ```
 
-3. Create a config.js file in the root with the following. An app id and API key from the [Edamam API](https://developer.edamam.com/) are required to get recipe results.
+3. Create a .env file in the root with the following. This is used by the [dotenv](https://www.npmjs.com/package/dotenv) dependency module.
 ```
-module.exports = {
-    port: process.env.PORT || <3000, OR YOUR PORT>,
-        db: {
-            uri: 'mongodb://localhost:<27017 OR YOUR PORT>/',
-        },
-        apiAppId: <YOUR API APP ID>,
-        apiKey: <YOUR API KEY>
-    };
+DB_URL = mongodb://localhost/recipe_box_local
+PORT = 3000
+SESSION_SECRET = <ANY TEXT YOU WISH>
 ```
 
-4. Create a config.js file in the /src/ folder with the following. The url may be your localhost address, or another domain.
-```
-module.exports = {
-	url: '<LOCALHOST URL OR EQUIVALENT>'
-};
-```
-
-5. Compile with webpack
-```
-npm run build
-```
-
-6. Start the MongoDB server
+4. Start the mongoDB service
 ```
 sudo service mongod start
 ```
 
-7. Before running for the first time, populate the database by uncommenting the populate database section in app-server.js.
+5. Start the node server on port 3000
 ```
-// =======================
-// Populate Database
-// =======================
-// Uncomment and run once when needed
- const produce = new Produce;
- produce.populateDB();
+node app.js
 ```
 
-8. Start Node server. If running for the first time, be sure to comment out the populate database section after complete.
+6. Visit the app by visiting http://localhost:3000/ or the equivalent.
+You can demo the app by entering the following credentials :
 ```
-node app-server.js
+Username: test
+Password: test
 ```
-
-9. Visit the app by visiting http://localhost:3000/ or the equivalent. The app will display produce that is in season according to the month provided by your browser.
-Try selecting up to 4 vegetables and clicking 'search' to get recipes that make the best use of what produce you have!
+Test it out by creating a new recipe and then editing it.
 
 ## Built With
 
-* [Node.js](https://nodejs.org/en/) - Used for the backend to serve files, as well as serve as an endpoint for produce and recipe requests.
+* [Node.js](https://nodejs.org/en/) - Used for the backend to serve files, as well as serve as an endpoint for recipe requests.
 * [Express](https://expressjs.com/) - Web application framework for Node.js
-* [MongoDB](https://www.mongodb.com/) - NoSQL database used to build the Produce API
-* [Mongoose](https://mongoosejs.com/) - Object modeling for MongoDB. Used to build the Produce API
+* [MongoDB](https://www.mongodb.com/) - NoSQL database used to build the Recipe API
+* [Mongoose](https://mongoosejs.com/) - Object modeling for MongoDB. Used to build the Recipe API
+* [EJS](https://www.npmjs.com/package/ejs) - Embedded JavaScript Templates. Server side template rendering.
 * [Bootstrap](http://getbootstrap.com/) - CSS framework for simplified responsive design
