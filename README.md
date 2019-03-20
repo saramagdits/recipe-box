@@ -43,7 +43,7 @@ node app.js
 ```
 
 6. Visit the app by visiting http://localhost:3000/ or the equivalent.
-You can demo the app by entering the following credentials :
+Alternatively, you can also demo the [live app](https://vast-ridge-39525.herokuapp.com/) by entering the following credentials :
 ```
 Username: test
 Password: test
