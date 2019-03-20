@@ -13,7 +13,7 @@
         <% user.recipes.forEach(function(recipe){ %>
         <div class="col-sm-12 col-md-3">
             <a href="/recipes/<%= recipe._id %>">
-                <div>
+                <div class='recipe-thumbnail'>
                     <img class="img-fluid rounded img-thumbnail" src="/uploads/<%= recipe.img.imgFileName %>">
                     <h2><%= recipe.title %></h2>
                 </div>

@@ -27,8 +27,17 @@ nav {
 .form-header{
     text-align: center;
 }
-
+.login-demo-note {
+    width: 45%;
+    margin: 0 auto;
+    text-align: center;
+    color: #6D7882;
+}
 .form-container{
     width: 45%;
     margin: 25px auto;
+}
+
+.recipe-thumbnail {
+    text-align: center;
 }
